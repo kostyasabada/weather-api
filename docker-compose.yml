@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run start:dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - weather-db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - weather
+
+  weather-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - "5435:5432"
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+    networks:
+      - weather
+
+volumes:
+  db-volume:
+
+networks:
+  weather:
