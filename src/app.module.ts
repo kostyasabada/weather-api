@@ -1,15 +1,18 @@
 import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfigModule } from './database/database-config.module';
 import { DatabaseConfigService } from './database/database-config.service';
-import { Weather } from './models/weather.entity';
+import { Weather } from './models/weather/weather.entity';
+import { WeatherModule } from './models/weather/weather.module';
+import { ApiModule } from './api/api.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [DatabaseConfigModule],
+      imports: [DatabaseConfigModule, HttpModule, WeatherModule, ApiModule],
       useFactory: (databaseConfigService: DatabaseConfigService) => {
         return {
           type: 'postgres',

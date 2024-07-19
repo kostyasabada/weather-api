@@ -6,5 +6,14 @@ export class Weather {
   id: number;
 
   @Column()
+  lat: string;
+
+  @Column()
+  lon: string;
+
+  @Column()
+  part?: string;
+
+  @Column()
   weather: string;
 }
